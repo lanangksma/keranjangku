@@ -1,30 +1,32 @@
 #!/bin/bash
+#########################################################
+echo -e "\e[1;37;4;44mTuliskan Nama Branch Kamu\e[0m"
+read -r cabang
 
-echo "Yakin udah beres? (yes/no)"
-read input
+# Check if branch already exists
+if git rev-parse --verify "$cabang" >/dev/null 2>&1; then
+    echo "Branch $cabang already exists. Checking it out..."
+    git checkout "$cabang"
+else
+    git branch "$cabang"
+    git checkout "$cabang"
+    echo "Semangat kerjain fitur $cabang nya!"
+fi
 
-while [[ $input != "yes" ]] && [[ $input != "no" ]] && [[ $input != "n/N/No/no/NO" ]]; do
-    echo "Invalid input. Please enter 'yes' or 'no':"
-    read input
-done
+echo "Pastikan semua file sudah di-add. Lanjutkan commit? (y/n)"
+read -r jawaban
 
-if [[ $input == "yes" ]]; then
-    echo " "
-    echo "-----------------------------------"
-    echo "Terimakasih buat kerja kerasnya !!!"
-    echo "-----------------------------------"
+if [ "$jawaban" == "y" ]; then
     git add .
-    echo "Kamu selesai mengerjakan fitur apa?"
-    read feat
-    echo "Tuliskan Issue Nomor nya :"
-    read id
 
+    echo "Tuliskan pesan commitnya, contoh: (Feat: Menambahkan fitur login)"
+    read -r pesan_commit
     current_time=$(date "+%Y-%m-%d %H:%M:%S")
 
-    git commit -m "feat($id): Menambahkan fitur $feat [Pada : $current_time]"
-    git push
-
-elif [[ $input == "no" ]] || [[ $input == "n/N/No/no/NO" ]]; then
-    echo "SEMANGATTT !!!"
+    git commit -m "$pesan_commit, Pada : $current_time"
+    git push origin "$cabang"
+    echo "Semangat! commit berhasil."
+else
+    echo "Jangan lupa untuk menambahkan file yang diubah."
     exit 0
 fi
