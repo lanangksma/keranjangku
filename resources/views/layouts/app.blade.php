@@ -28,9 +28,12 @@
             @endif
 
             <!-- Page Content -->
-            <main>
+            <main class="flex flex-col h-full mb-auto">
                 {{ $slot }}
             </main>
+
+            <!-- Footer -->
+            @include('layouts.footer')
         </div>
     </body>
 </html>
