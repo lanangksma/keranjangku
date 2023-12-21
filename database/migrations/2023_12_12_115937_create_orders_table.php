@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignId('user_id');
-            $table->string('order_number')->unique();
-            $table->string('total_price');
+            $table->integer('order_number')->unique();
+            $table->integer('total_price');
             $table->enum('status', ['sedang diproses', 'selesai'])->default('sedang diproses');
         });
     }
