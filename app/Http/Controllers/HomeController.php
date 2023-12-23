@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -9,8 +10,20 @@ class HomeController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request)
+    public function index()
     {
-        return view('frontstore.home');
+        $client = new Client();
+
+        // Get the products
+        $response = $client->get('https://fakestoreapi.com/products');
+        $products = json_decode($response->getBody(), true);
+
+        // Get the categories
+        $response = $client->get('https://fakestoreapi.com/products/categories');
+        $categories = json_decode($response->getBody(), true);
+
+        // Return the view with both products and categories
+        return view('frontstore.home', ['products' => $products, 'categories' => $categories]);
     }
+
 }
