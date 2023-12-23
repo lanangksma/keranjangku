@@ -5,41 +5,25 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
-<div class=" bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-    <div class="container mx-auto py-10">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-            <div>
-                <img src="https://source.unsplash.com/random" alt="Product Image" class="w-full h-97 object-cover">
-            </div>
-            <div>
-                <h1 class="text-4xl font-bold mb-5">Travel Bags Everyday Ruck Snack</h1>
-                <p class="text-2xl mb-5">$220</p>
-                <p class="text-lg mb-5">Don't compromise on snack-carrying capacity with this lightweight and spacious bag. The drawstring top keeps all your favorite chips, crisps, fries, biscuits, crackers, and cookies secure.</p>
-                <p class="text-green-600 text-lg mb-5">✓ In stock and ready to ship</p>
-                <div class="mb-5">
-                    <span class="text-lg font-bold">Size:</span>
-                    <span class="text-lg ml-3">18L</span>
+
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row bg-white dark:bg-gray-800 shadow-lg rounded-md overflow-hidden">
+                <div class="md:w-1/2">
+                    <img class="w-full h-auto md:h-96 object-cover" src="coba.jpg" alt="coba">
                 </div>
-                <p class="text-lg mb-5">Perfect for a reasonable amount of snacks.</p>
-                <div class="text-lg mb-5">
-                    <span>1624 reviews</span>
-                    <span class="text-green-600 ml-3">✓ Best Seller</span>
-                </div>
-                <p class="text-lg mb-5">What size should I buy?</p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <div class="bg-white p-3 rounded shadow">
-                        <p class="text-xl font-bold">20L</p>
-                        <p class="text-lg">Enough room for a serious amount of snacks.</p>
+                <div class="p-5 md:w-1/2 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200 leading-tight mb-2">Halo coba</h3>
+                        <p class="text-sm text-gray-700 dark:text-gray-300 mb-4">Test</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-semibold text-gray-800 dark:text-gray-200">100000</span>
+                        </div>
                     </div>
-                    <div class="bg-white p-3 rounded shadow">
-                        <p class="text-xl font-bold">18L</p>
-                        <p class="text-lg">Perfect for a reasonable amount of snacks.</p>
-                    </div>
+                    <button class="mt-4 bg-gray-200 text-gray-700 px-5 py-2 rounded-md text-sm font-medium self-end">Buy now</button>
                 </div>
-                <button class="bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-green-700">Add to bag</button>
-                <p class="text-sm mt-5">Lifetime Guarantee</p>
             </div>
         </div>
     </div>
-</div>
+
 </x-app-layout>

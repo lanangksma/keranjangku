@@ -17,11 +17,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', HomeController::class)->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
-Route::get('/product', ProductController::class)->name('product.index');
+Route::get('/product', [ProductController::class, 'index'])->name('product.index');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
