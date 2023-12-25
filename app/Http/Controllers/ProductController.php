@@ -65,7 +65,7 @@ class ProductController extends Controller
             'description' => ['required', 'string'],
             'category' => ['required', 'string'],
             'image' => ['required', 'string'],
-            'count' => ['required', 'numeric'],
+            'count' => ['nullable', 'numeric'],
         ]);
 
         if ($validator->fails()) {
