@@ -5,7 +5,7 @@
                 {{ __('Home') }}
             </x-nav-link>
 
-            <x-nav-link :href="route('dashboardProducts')" :active="request()->routeIs('dashboardProducts')">
+            <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
                 {{ __('Product') }}
             </x-nav-link>
 
@@ -30,7 +30,7 @@
                                 </p>
                             </div>
                             <div>
-                                <x-nav-link :href="route('dashboardProducts.create')" :active="request()->routeIs('dashboardProducts.create')">
+                                <x-nav-link :href="route('products.create')" :active="request()->routeIs('products.create')">
                                     {{ __('Add New') }}
                                 </x-nav-link>
                             </div>
@@ -53,7 +53,7 @@
                                             {{ $product['price'] }}
                                         </td>
                                         <td class="px-6 py-4 text-right">
-                                            <a href="#"
+                                            <a href="{{ route('products.edit', $product['id']) }}"
                                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Details</a>
                                         </td>
                                     </tr>

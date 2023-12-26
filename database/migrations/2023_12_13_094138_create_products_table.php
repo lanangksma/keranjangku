@@ -9,19 +9,19 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::create('products', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-            $table->string("title");
-            $table->float("price");
-            $table->text("description");
-            $table->string("category");
-            $table->string("image");
-            $table->integer("count");
-        });
-    }
+        public function up(): void
+        {
+            Schema::create('products', function (Blueprint $table) {
+                $table->id();
+                $table->timestamps();
+                $table->string("title");
+                $table->decimal("price", 10, 2);
+                $table->text("description");
+                $table->string("category");
+                $table->string("image")->nullable();
+                $table->integer("count");
+            });
+        }
 
     /**
      * Reverse the migrations.
