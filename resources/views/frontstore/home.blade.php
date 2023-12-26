@@ -69,6 +69,8 @@
                     <div
                         class="pt-5 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 items-center gap-6 overflow-visible">
                         @foreach ($products as $product)
+                            <a href="{{ route('products.show', ['id' => $product['id']]) }}"
+                               class="block hover:no-underline hover:scale-100">
 
                                 <x-product.card-list>
                                     <x-slot name="img">{{ $product['image'] }}</x-slot>
@@ -77,7 +79,7 @@
                                     <x-slot name="productDesc">{{ $product['description'] }}</x-slot>
                                     <x-slot name="productPrice">Rp. {{ $product['price'] }}</x-slot>
                                 </x-product.card-list>
-
+                            </a>
                         @endforeach
                     </div>
                 </div>
