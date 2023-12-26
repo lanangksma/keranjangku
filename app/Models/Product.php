@@ -9,6 +9,9 @@ class Product extends Model
 {
     use HasFactory;
 
+    /**
+     * @var false|mixed|string
+     */
     protected $fillable = [
         'title',
         'price',
@@ -17,4 +20,5 @@ class Product extends Model
         'image',
         'count',
     ];
+
 }

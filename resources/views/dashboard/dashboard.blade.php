@@ -5,7 +5,7 @@
                     {{ __('Home') }}
                 </x-nav-link>
 
-                <x-nav-link :href="route('dashboardProducts')" :active="request()->routeIs('dashboardProducts')">
+                <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
                     {{ __('Product') }}
                 </x-nav-link>
 
