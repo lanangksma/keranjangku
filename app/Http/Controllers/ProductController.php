@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
@@ -50,11 +51,19 @@ class ProductController extends Controller
         return view('product.index', compact('products'));
     }
 
-//    Menampilkan data dari API
-//    public function show()
-//    {
-//        return view('product.index', ['products' => $data]);
-//    }
+    public function show($id)
+    {
+        $response = Http::get("https://fakestoreapi.com/products/{$id}");
+
+        if ($response->successful()) {
+            $product = $response->json();
+            return view('products.show', ['product' => $product]);
+        }
+
+        // Handle error jika permintaan tidak berhasil
+        return redirect()->back()->withErrors(['Failed to fetch product details.']);
+    }
+
 
 //    menyimpan data dari API
     public function store(Request $request)

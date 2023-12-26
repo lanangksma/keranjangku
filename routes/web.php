@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 // Route untuk halaman utama dan produk
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/product', [ProductController::class, 'index'])->name('product.index');
+Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
 
 Route::middleware('auth')->group(function () {
     // Route untuk profil pengguna
