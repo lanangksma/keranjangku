@@ -15,8 +15,8 @@ Route::get('/product', [ProductController::class, 'index'])->name('product.index
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
 
 // Route untuk login dengan Google
-//Route::get('/auth/google', [GoogleAuthController::class, 'redirectToGoogle'])->name('google.redirect');
-//Route::get('/auth/google/callback', [GoogleAuthController::class, 'handleGoogleCallback'])->name('google.callback');
+Route::get('/auth/google', [GoogleAuthController::class, 'redirectToGoogle'])->name('google.redirect');
+Route::get('/auth/google/callback', [GoogleAuthController::class, 'handleGoogleCallback'])->name('google.callback');
 
 Route::middleware('auth')->group(function () {
     // Route untuk profil pengguna
