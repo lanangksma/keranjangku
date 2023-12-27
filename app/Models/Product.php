@@ -13,12 +13,12 @@ class Product extends Model
      * @var false|mixed|string
      */
     protected $fillable = [
-        'title',
-        'price',
-        'description',
-        'category',
-        'image',
-        'count',
+        'title', 'price', 'description', 'category_id', 'image', 'count'
     ];
+
+    public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
 
 }
