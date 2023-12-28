@@ -23,7 +23,7 @@ return new class extends Migration
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
 
             $table->string("image")->nullable();
-            $table->integer("count");
+            $table->integer("count")->default(0);
         });
     }
 

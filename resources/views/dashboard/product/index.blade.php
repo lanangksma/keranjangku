@@ -39,26 +39,26 @@
                             <x-product-table>
                                 @foreach($products as $product)
                                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                        <th scope="row"
-                                            class="px-6 py-4 font-medium text-gray-900 dark:text-white">
-                                            {{ $product['title'] }}
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white">
+                                            {{ $product->title }}
                                         </th>
                                         <td class="px-6 py-4">
-                                            {{ $product['description'] }}
+                                            {{ $product->description }}
                                         </td>
                                         <td class="px-6 py-4">
-                                            {{ $product['category'] }}
+                                            {{ $product->category->name }}
                                         </td>
                                         <td class="px-6 py-4">
-                                            {{ $product['price'] }}
+                                            Rp.&nbsp;{{ $product->price }}
                                         </td>
                                         <td class="px-6 py-4 text-right">
-                                            <a href="{{ route('products.edit', $product['id']) }}"
+                                            <a href="{{ route('products.edit', $product->id) }}"
                                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Details</a>
                                         </td>
                                     </tr>
                                 @endforeach
                             </x-product-table>
+                            {{ $products->links() }}
                         </div>
                     </section>
                 </div>
