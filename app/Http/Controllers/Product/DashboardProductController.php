@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Product;
 
+use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Product;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\View;
 
 class DashboardProductController extends Controller
@@ -15,19 +16,9 @@ class DashboardProductController extends Controller
      */
     public function index()
     {
-        $client = new Client();
+        $products = Product::paginate(10);
 
-        // Get the products
-        $response = $client->get('https://fakestoreapi.com/products');
-        $products = json_decode($response->getBody(), true);
-
-        // Get the categories
-        $response = $client->get('https://fakestoreapi.com/products/categories');
-        $categories = json_decode($response->getBody(), true);
-
-        return view('dashboard.product.index', [
-            'products' => $products, 'categories' => $categories
-        ]);
+        return view('dashboard.product.index', ['products' => $products]);
     }
 
     /**
@@ -36,10 +27,10 @@ class DashboardProductController extends Controller
     public function create()
     {
         // If you have predefined categories, you can use them here
-        $categories = ['Category 1', 'Category 2', 'Category 3'];
+        $categories = Category::all();
 
         // Return the view with the necessary data for creating a new product
-        return View::make('dashboard.product.create', ['categories' => $categories]);
+        return View('dashboard.product.create', ['categories' => $categories]);
     }
 
     /**
@@ -55,11 +46,19 @@ class DashboardProductController extends Controller
             'price' => 'required|numeric|min:0|max:99999999999',
         ]);
 
+        // Mencari kategori berdasarkan ID jika 'category' berupa nomor
+        if (is_numeric($validatedData['category'])) {
+            $category = Category::find($validatedData['category']);
+        } else {
+            // Jika 'category' berupa nama kategori, cari atau buat kategori baru
+            $category = Category::firstOrCreate(['name' => $validatedData['category']]);
+        }
+
         // Simpan data produk ke dalam model Product atau sumber data lainnya
         $product = new Product();
         $product->title = $validatedData['title'];
         $product->description = $validatedData['description'];
-        $product->category = $validatedData['category'];
+        $product->category_id = $category->id; // Menggunakan ID kategori yang ada atau baru dibuat
         $product->price = $validatedData['price'];
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('product_images', 'public');
@@ -71,8 +70,9 @@ class DashboardProductController extends Controller
         $product->save();
 
         // Redirect ke halaman yang sesuai setelah menyimpan produk
-        return Redirect::route('products.index')->with('success', 'Product added successfully');
+        return redirect()->route('products.index')->with('success', 'Product added successfully');
     }
+
 
 
 
