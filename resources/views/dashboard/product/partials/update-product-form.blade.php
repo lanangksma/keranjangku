@@ -31,7 +31,7 @@
 
         <div>
             <x-input-label for="category" :value="__('Category')" />
-            <x-text-input id="category" name="category" type="text" class="mt-1 block w-full" :value="$product['category']" placeholder="Enter category here" />
+            <x-text-input id="category" name="category" type="text" class="mt-1 block w-full" :value="$product->category->name" placeholder="Enter category here" />
             @error('category')
             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
