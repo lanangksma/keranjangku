@@ -38,40 +38,36 @@ class DashboardProductController extends Controller
      */
     public function store(Request $request)
     {
-        // Validasi data yang diterima dari form
         $validatedData = $request->validate([
             'title' => 'required|max:255',
             'description' => 'required',
             'category' => 'required',
             'price' => 'required|numeric|min:0|max:99999999999',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        // Mencari kategori berdasarkan ID jika 'category' berupa nomor
-        if (is_numeric($validatedData['category'])) {
-            $category = Category::find($validatedData['category']);
-        } else {
-            // Jika 'category' berupa nama kategori, cari atau buat kategori baru
-            $category = Category::firstOrCreate(['name' => $validatedData['category']]);
-        }
+        // Cari kategori atau buat kategori baru jika tidak ditemukan
+        $category = Category::firstOrCreate(['name' => $validatedData['category']]);
 
-        // Simpan data produk ke dalam model Product atau sumber data lainnya
         $product = new Product();
         $product->title = $validatedData['title'];
         $product->description = $validatedData['description'];
-        $product->category_id = $category->id; // Menggunakan ID kategori yang ada atau baru dibuat
+        $product->category_id = $category->id;
         $product->price = $validatedData['price'];
+
+        // Image handling
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('product_images', 'public');
             $product->image = $imagePath;
         } else {
-            $product->image = 'https://via.placeholder.com/150'; // Tautan gambar default jika tidak ada file diunggah
+            $product->image = 'https://via.placeholder.com/150';
         }
         $product->count = 0;
         $product->save();
 
-        // Redirect ke halaman yang sesuai setelah menyimpan produk
         return redirect()->route('products.index')->with('success', 'Product added successfully');
     }
+
 
 
 
@@ -89,23 +85,10 @@ class DashboardProductController extends Controller
      */
     public function edit($id)
     {
-        $client = new Client();
+        $product = Product::findOrFail($id);
+        $categories = Category::all();
 
-        try {
-            $response = $client->get("https://fakestoreapi.com/products/{$id}");
-
-            $statusCode = $response->getStatusCode();
-            if ($statusCode === 200) {
-                $product = json_decode($response->getBody(), true);
-                return view('dashboard.product.details', compact('product'));
-            } else {
-                // Handle other status codes if needed
-                return redirect()->back()->with('error', 'Failed to fetch product details.');
-            }
-        } catch (\Exception $e) {
-            // Handle exceptions, like connection errors
-            return redirect()->back()->with('error', 'An error occurred while fetching product details.');
-        }
+        return view('dashboard.product.details', ['product' => $product, 'categories' => $categories]);
     }
 
     /**

@@ -51,6 +51,15 @@
         </div>
 
         <div class="mt-4">
+            <div class="flex items-center justify-center">
+                <div class="border-t border-black w-1/2"></div>
+                <span class="mx-4">or</span>
+                <div class="border-t border-black w-1/2"></div>
+            </div>
+        </div>
+
+
+        <div class="mt-4">
             <a href="{{ route('google.redirect') }}"
                class="block w-full bg-white border border-gray-300 dark:border-gray-700 rounded-md py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-800">
                 <div class="flex items-center justify-center">
