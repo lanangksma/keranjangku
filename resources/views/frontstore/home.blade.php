@@ -28,13 +28,13 @@
                     {{-- Categories --}}
                     <div class="flex space-x-3 justify-between">
                         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                            {{ __('Categories') }}
+                            {{ __('Our Markets') }}
                         </h2>
                         <div class="flex space-x-3">
-                            @foreach($categories as $category)
+                            @foreach($categoriesDB as $category)
                                 <a href=""
                                    class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-5 py-1.5 rounded-md text-sm font-medium"
-                                   aria-current="page">{{ $category }}
+                                   aria-current="page">{{ $category->name }}
                                 </a>
                             @endforeach
                         </div>
@@ -42,7 +42,20 @@
                     {{-- End Categories --}}
                     {{-- Products --}}
                     <div class="pt-4 flex items-center gap-6">
-                        Soon
+                        @foreach ($productsDB as $product)
+                            <a href="{{ route('products.show', ['id' => $product['id']]) }}"
+                               class="block hover:no-underline hover:scale-100">
+                                <x-product.card-list>
+                                    <x-slot name="img">
+                                        <!-- Tambahkan tag img untuk menampilkan gambar -->
+                                        <img src="{{ asset('storage/' . $product['image']) }}" alt="{{ $product['title'] }}" class="w-full h-56 object-cover">
+                                    </x-slot>
+                                    <x-slot name="productTitle">{{ $product['title'] }}</x-slot>
+                                    <x-slot name="productDesc">{{ $product['description'] }}</x-slot>
+                                    <x-slot name="productPrice">Rp. {{ $product['price'] }}</x-slot>
+                                </x-product.card-list>
+                            </a>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -53,14 +66,15 @@
                     {{-- Categories --}}
                     <div class="flex space-x-3 justify-between">
                         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                            {{ __('Categories') }}
+                            {{ __('Other Markets') }}
                         </h2>
                         <div class="flex space-x-3">
-                            <a href=""
-                               class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-5 py-1.5 rounded-md text-sm font-medium"
-                               aria-current="page">
-                                All
-                            </a>
+                            @foreach($categories as $category)
+                                <a href=""
+                                   class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-5 py-1.5 rounded-md text-sm font-medium"
+                                   aria-current="page">{{ $category }}
+                                </a>
+                            @endforeach
                         </div>
                     </div>
                     {{-- End Categories --}}
@@ -73,8 +87,9 @@
                                class="block hover:no-underline hover:scale-100">
 
                                 <x-product.card-list>
-                                    <x-slot name="img">{{ $product['image'] }}</x-slot>
-                                    <x-slot name="imgalt">{{ $product['title'] }}</x-slot>
+                                    <x-slot name="img">
+                                        <img src="{{ $product['image'] }}" alt="{{ $product['title'] }}" class="w-full h-56 object-cover">
+                                    </x-slot>
                                     <x-slot name="productTitle">{{ $product['title'] }}</x-slot>
                                     <x-slot name="productDesc">{{ $product['description'] }}</x-slot>
                                     <x-slot name="productPrice">Rp. {{ $product['price'] }}</x-slot>
