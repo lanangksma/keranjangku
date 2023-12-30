@@ -54,41 +54,48 @@
                         </header>
                         <div class="mt-3">
                             <x-product-table>
-                                @foreach($products as $product)
-                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white">
-                                            {{ $product->title }}
-                                        </th>
-                                        <td class="px-6 py-4">
-                                            {{ $product->description }}
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            {{ $product->category->name }}
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            Rp.&nbsp;{{ $product->price }}
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            @if (Storage::disk('public')->exists($product->image))
-                                                @if (getimagesize(storage_path('app/public/' . $product->image)))
-                                                    <img src="{{ asset('storage/' . $product->image) }}"
-                                                         alt="{{ $product->title }}"
-                                                         class="w-20 h-20 object-cover rounded">
+                                @if($products->isEmpty())
+                                    <tr>
+                                        <td colspan="6" class="text-center py-4 px-10">YOU DON'T HAVE PRODUCTS TO SHOW</td>
+                                    </tr>
+                                @else
+                                    @foreach($products as $product)
+                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white">
+                                                {{ $product->title }}
+                                            </th>
+                                            <td class="px-6 py-4">
+                                                {{ $product->description }}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                {{ $product->category->name }}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                Rp.&nbsp;{{ $product->price }}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                @if (Storage::disk('public')->exists($product->image))
+                                                    @if (getimagesize(storage_path('app/public/' . $product->image)))
+                                                        <img src="{{ asset('storage/' . $product->image) }}"
+                                                             alt="{{ $product->title }}"
+                                                             class="w-20 h-20 object-cover rounded">
+                                                    @else
+                                                        <img src="{{ $product->image_link }}"
+                                                             alt="{{ $product->title }}"
+                                                             class="w-20 h-20 object-cover rounded">
+                                                    @endif
                                                 @else
-                                                    <img src="{{ $product->image_link }}" alt="{{ $product->title }}"
+                                                    <img src="https://via.placeholder.com/150" alt="Placeholder"
                                                          class="w-20 h-20 object-cover rounded">
                                                 @endif
-                                            @else
-                                                <img src="https://via.placeholder.com/150" alt="Placeholder"
-                                                     class="w-20 h-20 object-cover rounded">
-                                            @endif
-                                        </td>
-                                        <td class="px-6 py-4 text-right">
-                                            <a href="{{ route('products.edit', $product->id) }}"
-                                               class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Details</a>
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                            </td>
+                                            <td class="px-6 py-4 text-right">
+                                                <a href="{{ route('products.edit', $product->id) }}"
+                                                   class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Details</a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
                             </x-product-table>
                         </div>
                         <form action="{{ route('products.generatePdf') }}" target="_blank">
