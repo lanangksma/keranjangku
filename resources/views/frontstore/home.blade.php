@@ -48,7 +48,20 @@
                                 <x-product.card-list>
                                     <x-slot name="img">
                                         <!-- Tambahkan tag img untuk menampilkan gambar -->
-                                        <img src="{{ asset('storage/' . $product['image']) }}" alt="{{ $product['title'] }}" class="w-full h-56 object-cover">
+                                        @if (Storage::disk('public')->exists($product->image))
+                                            @if (getimagesize(storage_path('app/public/' . $product->image)))
+                                                <img src="{{ asset('storage/' . $product->image) }}"
+                                                     alt="{{ $product->title }}"
+                                                     class="w-full h-56 object-cover">
+                                            @else
+                                                <img src="{{ $product->image_link }}"
+                                                     alt="{{ $product->title }}"
+                                                     class="w-full h-56 object-cover">
+                                            @endif
+                                        @else
+                                            <img src="https://via.placeholder.com/150" alt="Placeholder"
+                                                 class="w-full h-56 object-cover">
+                                        @endif
                                     </x-slot>
                                     <x-slot name="productTitle">{{ $product['title'] }}</x-slot>
                                     <x-slot name="productDesc">{{ $product['description'] }}</x-slot>

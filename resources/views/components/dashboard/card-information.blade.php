@@ -9,6 +9,6 @@
         </p>
     </header>
     <div class="mt-3">
-        <x-dashboard-card/>
+        {{ $slot }}
     </div>
 </section>

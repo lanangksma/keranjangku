@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -11,6 +14,10 @@ class DashboardController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return view('dashboard.dashboard');
+        $products = Product::all();
+        $categories = Category::all();
+        $users = User::all();
+
+        return view('dashboard.dashboard', ['products' => $products, 'categories' => $categories, 'users' => $users]);
     }
 }
