@@ -19,7 +19,19 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
                 <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                     <div class="max-w-full">
-                        @include('dashboard.partials.card-information')
+                        <x-dashboard.card-information>
+                            <x-dashboard-card>
+                                <x-slot name='jumlahProduk'>
+                                    {{ $products->count() }}
+                                </x-slot>
+                                <x-slot name='jumlahKategori'>
+                                    {{ $categories->count() }}
+                                </x-slot>
+                                <x-slot name='jumlahUser'>
+                                    {{ $users->count() }}
+                                </x-slot>
+                            </x-dashboard-card>
+                        </x-dashboard.card-information>
                     </div>
                 </div>
                 <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
