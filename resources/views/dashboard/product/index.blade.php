@@ -28,9 +28,25 @@
                                 <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
                                     {{ __("Information about users") }}
                                 </p>
+                                <div class="flex items-center">
+                                    <label>
+                                        <input type="text" placeholder="Search..."
+                                               class="px-4 pe-10 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500">
+                                    </label>
+
+                                    <label class="ps-2">
+                                        <select class="px-4 pe-10 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500">
+                                            <option selected value="">All Categories</option>
+                                            @foreach($products as $product)
+                                                <option value="{{ $product->category->id }}">{{ $product->category->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </label>
+                                </div>
                             </div>
                             <div>
-                                <x-nav-link :href="route('products.create')" :active="request()->routeIs('products.create')">
+                                <x-nav-link :href="route('products.create')"
+                                            :active="request()->routeIs('products.create')">
                                     {{ __('Add New') }}
                                 </x-nav-link>
                             </div>
@@ -54,12 +70,16 @@
                                         <td class="px-6 py-4">
                                             @if (Storage::disk('public')->exists($product->image))
                                                 @if (getimagesize(storage_path('app/public/' . $product->image)))
-                                                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->title }}" class="w-20 h-20 object-cover rounded">
+                                                    <img src="{{ asset('storage/' . $product->image) }}"
+                                                         alt="{{ $product->title }}"
+                                                         class="w-20 h-20 object-cover rounded">
                                                 @else
-                                                    <img src="{{ $product->image_link }}" alt="{{ $product->title }}" class="w-20 h-20 object-cover rounded">
+                                                    <img src="{{ $product->image_link }}" alt="{{ $product->title }}"
+                                                         class="w-20 h-20 object-cover rounded">
                                                 @endif
                                             @else
-                                                <img src="https://via.placeholder.com/150" alt="Placeholder" class="w-20 h-20 object-cover rounded">
+                                                <img src="https://via.placeholder.com/150" alt="Placeholder"
+                                                     class="w-20 h-20 object-cover rounded">
                                             @endif
                                         </td>
                                         <td class="px-6 py-4 text-right">
@@ -72,7 +92,10 @@
                         </div>
                         <form action="{{ route('products.generatePdf') }}" target="_blank">
                             @csrf
-                            <button type="submit" class="ml-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-5">Download PDF</button>
+                            <button type="submit"
+                                    class="ml-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-5">
+                                Download PDF
+                            </button>
                         </form>
                     </section>
                 </div>
