@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Product;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use Barryvdh\DomPDF\Facade\Pdf;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
 
 class DashboardProductController extends Controller
@@ -16,7 +18,7 @@ class DashboardProductController extends Controller
      */
     public function index()
     {
-        $products = Product::paginate(10);
+        $products = Product::all();
 
         return view('dashboard.product.index', ['products' => $products]);
     }
@@ -107,8 +109,13 @@ class DashboardProductController extends Controller
         // Update fields based on validated data
         $product->update($validatedData);
 
-        // Update image if a new one is uploaded
+        // Check if a new image is uploaded and delete old image
         if ($request->hasFile('image')) {
+            // Delete old image if it exists
+            if ($request->oldImage) {
+                Storage::disk('public')->delete($request->oldImage);
+            }
+
             $imagePath = $request->file('image')->store('product_images', 'public');
             $product->image = $imagePath;
             $product->save();
@@ -126,4 +133,14 @@ class DashboardProductController extends Controller
 
         return redirect()->route('products.index')->with('success', 'Product deleted successfully');
     }
+
+    public function generatePDF()
+    {
+        $products = Product::limit(20)->get(); // Get all products (lazy loading
+
+        $pdf = Pdf::loadView('products.pdf_view', compact('products'));
+        $pdf->setPaper('A4', 'portrait');
+        return $pdf->stream('products.pdf');
+    }
+
 }

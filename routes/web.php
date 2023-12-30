@@ -26,6 +26,7 @@ Route::middleware('auth')->group(function () {
     // Route untuk dashboard dan produk (menggunakan resource controller)
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
     Route::resource('dashboard/products', DashboardProductController::class)->except('show');
+    Route::get('dashboard/products/pdf', [DashboardProductController::class, 'generatePDF'])->name('products.generatePdf');
     Route::post('/dashboard/products/store', [DashboardProductController::class, 'store'])->name('products.store');
 });
 
