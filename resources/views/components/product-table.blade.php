@@ -19,12 +19,15 @@
                 {{ __('Price') }}
             </th>
             <th scope="col" class="px-6 py-3">
+                {{ __('Image') }}
+            </th>
+            <th scope="col" class="px-6 py-3">
                 <span class="sr-only">Action</span>
             </th>
         </tr>
         </thead>
         <tbody>
-            {{ $slot }}
+        {{ $slot }}
         </tbody>
     </table>
 </div>

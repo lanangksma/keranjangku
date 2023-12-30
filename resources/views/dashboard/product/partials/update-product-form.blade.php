@@ -47,6 +47,7 @@
 
         <div>
             <x-input-label for="image" :value="__('Image')" />
+            <input type="hidden" name="oldImage" value="{{ $product->image }}">
             <input id="image" name="image" type="file" class="mt-1 block w-full">
             @error('image')
             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
