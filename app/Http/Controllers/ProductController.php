@@ -55,13 +55,12 @@ class ProductController extends Controller
     {
         $response = Http::get("https://fakestoreapi.com/products/{$id}");
 
-        if ($response->successful()) {
-            $product = $response->json();
-            return view('products.show', ['product' => $product]);
+        if (!$response->successful()) {
+            return redirect()->back()->withErrors(['Failed to fetch product details.']);
         }
-
+        $product = $response->json();
+        return view('products.show', ['product' => $product]);
         // Handle error jika permintaan tidak berhasil
-        return redirect()->back()->withErrors(['Failed to fetch product details.']);
     }
 
 
