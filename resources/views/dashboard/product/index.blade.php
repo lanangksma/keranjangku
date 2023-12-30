@@ -28,17 +28,18 @@
                                 <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
                                     {{ __("Information about users") }}
                                 </p>
-                                <div class="flex items-center">
+                                <div class="flex items-center mt-4">
                                     <label>
-                                        <input type="text" placeholder="Search..."
+                                        <input type="text" name="search" placeholder="Search..."
                                                class="px-4 pe-10 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500">
                                     </label>
 
                                     <label class="ps-2">
-                                        <select class="px-4 pe-10 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500">
+                                        <select
+                                            class="px-4 pe-10 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500">
                                             <option selected value="">All Categories</option>
-                                            @foreach($products as $product)
-                                                <option value="{{ $product->category->id }}">{{ $product->category->name }}</option>
+                                            @foreach($categories as $category)
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
                                             @endforeach
                                         </select>
                                     </label>
