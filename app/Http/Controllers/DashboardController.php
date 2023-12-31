@@ -16,7 +16,7 @@ class DashboardController extends Controller
     {
         $products = Product::all();
         $categories = Category::all();
-        $users = User::all();
+        $users = User::count();
 
         return view('dashboard.dashboard', ['products' => $products, 'categories' => $categories, 'users' => $users]);
     }

@@ -28,7 +28,7 @@
                                     {{ $categories->count() }}
                                 </x-slot>
                                 <x-slot name='jumlahUser'>
-                                    {{ $users->count() }}
+                                    {{ $users }}
                                 </x-slot>
                             </x-dashboard-card>
                         </x-dashboard.card-information>
