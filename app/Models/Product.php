@@ -9,18 +9,14 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $guarded = ['id', 'category_id'];
-
+    /**
+     * @var false|mixed|string
+     */
     protected $fillable = [
-        'name',
-        'price',
-        'stock',
-        'description',
-        'image',
-        'slug',
+        'title', 'price', 'description', 'category_id', 'image', 'count'
     ];
 
-    public function category()
+    public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
