@@ -135,6 +135,12 @@ class DashboardProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        // Hapus gambar terkait jika ada
+        if ($product->image) {
+            Storage::disk('public')->delete($product->image);
+        }
+
+        // Hapus produk
         $product->delete();
 
         return redirect()->route('products.index')->with('success', 'Product deleted successfully');
