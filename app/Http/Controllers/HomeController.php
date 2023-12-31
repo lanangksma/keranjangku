@@ -29,4 +29,36 @@ class HomeController extends Controller
         return view('frontstore.home', ['products' => $products, 'categories' => $categories, 'productsDB' => $productsDB, 'categoriesDB' => $categoriesDB]);
     }
 
+    public function search(Request $request)
+    {
+        $client = new Client();
+
+        $searchTerm = $request->input('search');
+
+        // Get all products
+        $productsResponse = $client->get('https://fakestoreapi.com/products');
+        $products = json_decode($productsResponse->getBody(), true);
+
+        // Filter products based on search term
+        $filteredProducts = array_filter($products, function ($product) use ($searchTerm) {
+            return str_contains(strtolower($product['title']), strtolower($searchTerm));
+        });
+
+        // Get the categories from the API
+        $categoriesResponse = $client->get('https://fakestoreapi.com/products/categories');
+        $categories = json_decode($categoriesResponse->getBody(), true);
+
+        // Get the products & category from DB
+        $productsDB = Product::where('description', 'LIKE', "%$searchTerm%")->get();
+        $categoriesDB = Category::limit(4)->get();
+
+        return view('frontstore.home', [
+            'products' => $filteredProducts,
+            'categories' => $categories,
+            'productsDB' => $productsDB,
+            'categoriesDB' => $categoriesDB,
+        ]);
+    }
+
+
 }

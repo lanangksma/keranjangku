@@ -29,10 +29,12 @@
                                     {{ __("Information about users") }}
                                 </p>
                                 <div class="flex items-center mt-4">
-                                    <label>
-                                        <input type="text" name="search" placeholder="Search..."
-                                               class="px-4 pe-10 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500">
-                                    </label>
+                                    <form action="{{ route('products.index') }}" method="GET">
+                                        <label class="ps-2">
+                                            <input type="text" name="search" placeholder="Search"
+                                                   class="px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500">
+                                        </label>
+                                    </form>
 
                                     <label class="ps-2">
                                         <select
@@ -52,11 +54,13 @@
                                 </x-nav-link>
                             </div>
                         </header>
-                        <div class="mt-3">
+                        <div class="mt-3" id="searchRes">
                             <x-product-table>
+                                <tbody id="products">
                                 @if($products->isEmpty())
                                     <tr>
-                                        <td colspan="6" class="text-center py-4 px-10">YOU DON'T HAVE PRODUCTS TO SHOW</td>
+                                        <td colspan="6" class="text-center py-4 px-10">YOU DON'T HAVE PRODUCTS TO SHOW
+                                        </td>
                                     </tr>
                                 @else
                                     @foreach($products as $product)
@@ -96,6 +100,7 @@
                                         </tr>
                                     @endforeach
                                 @endif
+                                </tbody>
                             </x-product-table>
                         </div>
                         <form action="{{ route('products.generatePdf') }}" target="_blank">
@@ -110,4 +115,26 @@
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchForm = document.querySelector('[name="search"]');
+            const searchRes = document.getElementById('searchRes');
+
+            let delayTimer;
+
+            searchForm.addEventListener('input', async (e) => {
+                clearTimeout(delayTimer);
+                const search = e.target.value;
+
+                // Menunda permintaan fetch untuk mencegah permintaan berulang yang tidak perlu
+                delayTimer = setTimeout(async () => {
+                    const res = await fetch(`/dashboard/products?search=${search}`);
+                    const data = await res.text();
+                    searchRes.innerHTML = data;
+                }, 500); // Menunda permintaan selama 500ms setelah input berhenti
+            });
+
+        });
+
+    </script>
 </x-app-layout>
