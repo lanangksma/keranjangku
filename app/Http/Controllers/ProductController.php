@@ -18,7 +18,7 @@ class ProductController extends Controller
         $data = json_decode($response->getBody(), true);
 
         // lakukan sesuatu dengan data
-        return view('product.index', ['products' => $data]);
+        return view('products.show', ['products' => $data]);
     }
 
 //    Mengambil data dari API
@@ -48,7 +48,7 @@ class ProductController extends Controller
         $response = $client->get('https://fakestoreapi.com/products/category/' . $category);
         $products = json_decode($response->getBody(), true);
 
-        return view('product.index', compact('products'));
+        return view('products.show', compact('products'));
     }
 
     public function show($id)

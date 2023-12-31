@@ -44,26 +44,6 @@ class DashboardProductController extends Controller
         return View('dashboard.product.create', ['categories' => $categories]);
     }
 
-//    public function search(Request $request)
-//    {
-//        $searchTerm = $request->input('search');
-//
-//        // Get all products
-//        $products = Product::all();
-//
-//        // Filter products based on search term
-//        $filteredProducts = $products->filter(function ($product) use ($searchTerm) {
-//            return str_contains(strtolower($product->title), strtolower($searchTerm));
-//        });
-//
-//        // Get the categories from the API
-//        $categories = Category::all();
-//
-//        return view('dashboard.product.index', [
-//            'products' => $filteredProducts,
-//            'categories' => $categories,
-//        ]);
-//    }
 
     /**
      * Store a newly created resource in storage.
