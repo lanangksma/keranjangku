@@ -10,8 +10,9 @@ use Illuminate\Support\Facades\Route;
 
 // Route untuk halaman utama dan produk
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/search', [HomeController::class, 'search'])->name('search');
 Route::get('/product', [ProductController::class, 'index'])->name('product.index');
-Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
+Route::get('/product/{id}', [ProductController::class, 'show'])->name('products.show');
 
 // Route untuk login dengan Google
 Route::get('/auth/google', [GoogleAuthController::class, 'redirectToGoogle'])->name('google.redirect');

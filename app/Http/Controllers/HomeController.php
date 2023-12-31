@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Product;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use function Pest\Laravel\get;
 
 class HomeController extends Controller
 {
@@ -29,36 +30,74 @@ class HomeController extends Controller
         return view('frontstore.home', ['products' => $products, 'categories' => $categories, 'productsDB' => $productsDB, 'categoriesDB' => $categoriesDB]);
     }
 
-    public function search(Request $request)
+    public function search()
     {
-        $client = new Client();
+        $searchQuery = request('search');
+        $selectedCategory = request('category'); // Ambil kategori yang dipilih
 
-        $searchTerm = $request->input('search');
+        // Mengambil produk dari API dengan filter pencarian dan kategori
+        $apiProducts = $this->fetchApiProducts($searchQuery, $selectedCategory);
 
-        // Get all products
-        $productsResponse = $client->get('https://fakestoreapi.com/products');
-        $products = json_decode($productsResponse->getBody(), true);
+        $productsDB = Product::query();
 
-        // Filter products based on search term
-        $filteredProducts = array_filter($products, function ($product) use ($searchTerm) {
-            return str_contains(strtolower($product['title']), strtolower($searchTerm));
-        });
+        // Filter berdasarkan pencarian di kolom 'title'
+        if ($searchQuery) {
+            $productsDB->where('title', 'like', '%' . $searchQuery . '%');
+        }
 
-        // Get the categories from the API
-        $categoriesResponse = $client->get('https://fakestoreapi.com/products/categories');
-        $categories = json_decode($categoriesResponse->getBody(), true);
+        // Filter berdasarkan kategori yang dipilih
+        if ($selectedCategory) {
+            $productsDB->whereHas('category', function ($query) use ($selectedCategory) {
+                $query->where('name', $selectedCategory);
+            });
+        }
 
-        // Get the products & category from DB
-        $productsDB = Product::where('description', 'LIKE', "%$searchTerm%")->get();
+        $dbProducts = $productsDB->get();
+
+        // Mengambil kategori dari API
+        $categories = $this->fetchApiCategories();
+
+        // Mengambil kategori dari database
         $categoriesDB = Category::limit(4)->get();
 
         return view('frontstore.home', [
-            'products' => $filteredProducts,
+            'products' => $apiProducts,
+            'productsDB' => $dbProducts,
             'categories' => $categories,
-            'productsDB' => $productsDB,
-            'categoriesDB' => $categoriesDB,
+            'categoriesDB' => $categoriesDB
         ]);
     }
 
+// Fungsi untuk mengambil produk dari API berdasarkan pencarian
+    private function fetchApiProducts($searchQuery, $category = null)
+    {
+        $client = new Client();
+        $response = $client->get('https://fakestoreapi.com/products');
+        $apiProducts = json_decode($response->getBody(), true);
+
+        // Filter berdasarkan pencarian
+        if ($searchQuery) {
+            $apiProducts = collect($apiProducts)->filter(function ($product) use ($searchQuery) {
+                return stripos($product['title'], $searchQuery) !== false;
+            })->values()->all();
+        }
+
+        // Filter berdasarkan kategori jika ada kategori yang dipilih
+        if ($category) {
+            $apiProducts = collect($apiProducts)->filter(function ($product) use ($category) {
+                return $product['category'] === $category;
+            })->values()->all();
+        }
+
+        return $apiProducts;
+    }
+
+// Fungsi untuk mengambil kategori dari API
+    private function fetchApiCategories()
+    {
+        $client = new Client();
+        $response = $client->get('https://fakestoreapi.com/products/categories');
+        return json_decode($response->getBody(), true);
+    }
 
 }
