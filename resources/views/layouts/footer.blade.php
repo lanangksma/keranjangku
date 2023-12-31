@@ -5,7 +5,7 @@
             {{--Gambar--}}
             <div class="mb-6 md:mb-0">
                 <a href="https://flowbite.com/" class="flex items-center">
-                    <img src="/img/Keranjangku.png" alt="keranjangku" class="h-8 me-3"/>
+                    <img src="/img/Keranjangku.svg" alt="keranjangku" class="h-8 me-3"/>
                     <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Keranjangku</span>
                 </a>
             </div>

@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('home') }}">
-                        <img src="/img/Keranjangku.png" alt="keranjangku" class="w-25 h-20 fill-current text-gray-500"></a>
+                        <img src="/img/Keranjangku.svg" alt="keranjangku" class="w-25 h-20 fill-current text-gray-500"></a>
                 </div>
 
                 <!-- Navigation Links -->
