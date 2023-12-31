@@ -14,6 +14,14 @@ class DashboardController extends Controller
      */
     public function __invoke(Request $request)
     {
+        if (auth()->guest()) {
+            return redirect()->route('home');
+        }
+
+        if (auth()->user()->email !== 'lanangkusuma10@gmail.com') {
+            return redirect()->route('home');
+        }
+
         $products = Product::all();
         $categories = Category::all();
         $users = User::count();
