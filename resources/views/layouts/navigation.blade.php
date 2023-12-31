@@ -6,8 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('home') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200"/>
-                    </a>
+                        <img src="/img/Keranjangku.png" alt="keranjangku" class="w-25 h-20 fill-current text-gray-500"></a>
                 </div>
 
                 <!-- Navigation Links -->
@@ -38,7 +37,7 @@
                                 <div>{{ Auth::user()->name }}</div>
 
                                 <div class="ms-1">
-                                    <img src="/img/Keranjangku.png" alt="keranjangku"  class="w-40 h-40 text-gray-500">
+                                    
                                 </div>
                             </button>
                         </x-slot>
