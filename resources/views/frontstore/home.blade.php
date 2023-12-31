@@ -5,8 +5,13 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-8">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+
+            <div class="flex space-x-3">
+                <input type="text" placeholder="Search..." class="border border-gray-300 rounded-md py-3 px-2 w-full">
+                <button class="bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-md px-4 py-3 text-sm font-medium">Search</button>
+            </div>
 
             {{-- Swipper --}}
             <div class="bg-white dark:bg-gray-800 shadow swiper">
@@ -30,6 +35,7 @@
                         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                             {{ __('Our Markets') }}
                         </h2>
+
                         <div class="flex space-x-3">
                             @foreach($categoriesDB as $category)
                                 <a href=""
